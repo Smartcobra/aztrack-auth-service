@@ -3,46 +3,28 @@ package com.asiczen.auth.entites;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "app_user")
-public class User {
+public class User extends BaseModel {
 
-    @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
-
-
-    @Column(name = "first_name", nullable = false)
-    @Size(max = 100)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    @Size(max = 100)
-    private String lastName;
-
-    @Column(name = "user_name",nullable = false)
-    @Size(max = 100)
     private String userName;
-
-    @Column(nullable = false)
-    @Size(max = 100)
+    private String email;
     private String password;
-
-
-    @PrePersist
-    public void generateId() {
-        this.id = UUID.randomUUID().toString();
-    }
+    private boolean isDeleted;
+    private String firstName;
+    private String lastName;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+    private boolean isEmailVerified;
 
 }
